@@ -1,2 +1,1 @@
-# Testing
-For Git Command  Practice
+# RestaurantDigital
