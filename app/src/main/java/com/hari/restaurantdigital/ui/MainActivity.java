@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
+    public static int mDeviceWidth, mDeviceHeight;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Initializing Toolbar and setting it as the actionbar
         toolbar = (Toolbar) findViewById(id.toolbar);
         setSupportActionBar(toolbar);
+        calculateDeviceMetrics();
 
         //Initializing NavigationView
         navigationView = (NavigationView) findViewById(id.navigation_view);
@@ -194,5 +198,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         return true;
+    }
+
+
+    private void calculateDeviceMetrics() {
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        mDeviceHeight = displayMetrics.heightPixels;
+        mDeviceWidth = displayMetrics.widthPixels;
     }
 }

@@ -24,6 +24,8 @@ import com.hari.restaurantdigital.R;
 import com.hari.restaurantdigital.adapter.DishListAdapter;
 import com.hari.restaurantdigital.interfaces.DishSelectedInterface;
 
+import org.lucasr.twowayview.widget.TwoWayView;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -33,7 +35,7 @@ import java.util.HashSet;
  */
 public class ContentFragment extends Fragment implements DishSelectedInterface {
 
-    RecyclerView mRecyclerView;
+    TwoWayView mRecyclerView;
     LinearLayoutManager mLinearLayoutManager;
     DishListAdapter mDishListAdapter;
     ArrayList mDishArrayList;
@@ -89,12 +91,9 @@ public class ContentFragment extends Fragment implements DishSelectedInterface {
     }
 
     private void initViews(View pView) {
-        mRecyclerView = (RecyclerView) pView.findViewById(R.id.recycler_view);
+        mRecyclerView = (TwoWayView) pView.findViewById(R.id.two_way_list);
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setHasFixedSize(true);
-        StaggeredGridLayoutManager gaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 0);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
-        mRecyclerView.setLayoutManager(gridLayoutManager);
         mDishListAdapter = new DishListAdapter(ContentFragment.this);
         mDishListAdapter.setData(mDishArrayList);
         mRecyclerView.setAdapter(mDishListAdapter);
