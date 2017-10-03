@@ -1,6 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical"
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
@@ -15,13 +17,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:layout_margin="5dp"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/menu_display_img_layout"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="0dp">
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
                 <ImageView
                     android:id="@+id/menu_display_img"
@@ -43,7 +47,7 @@
                     android:padding="@dimen/dish_title_padding"
                     android:text="Dish Title"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
             </RelativeLayout>
 
@@ -64,7 +68,7 @@
                     android:padding="@dimen/dish_price_padding"
                     android:text="Price : 5$"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
                 <TextView
@@ -81,7 +85,7 @@
                     android:padding="@dimen/dish_estimated_time__padding"
                     android:text="Estimated Time : 5 min"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
                 <ImageView

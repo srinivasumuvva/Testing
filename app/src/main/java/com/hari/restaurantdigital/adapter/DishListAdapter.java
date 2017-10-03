@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 
 public class DishListAdapter extends RecyclerView.Adapter<DishListAdapter.DishListViewHolder> {
-    private int mProductDisplayType = 4;
+    private int mProductDisplayType = MainActivity.mProductDisplayType;
     private int mDeviceWidth, mDeviceHeight;
     private static final String TAG=DishListAdapter.class.getSimpleName();
     ArrayList<Dish> mDishArrayList = new ArrayList<>();
@@ -31,13 +31,13 @@ public class DishListAdapter extends RecyclerView.Adapter<DishListAdapter.DishLi
         mDishSelectedInterface = pDishSelectedInterface;
         mDeviceHeight= MainActivity.mDeviceHeight;
         mDeviceWidth=MainActivity.mDeviceWidth;
-
+        mProductDisplayType = MainActivity.mProductDisplayType;
     }
 
     @Override
     public DishListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.menu_display_layout, parent, false);
+                .inflate(R.layout.menu_display_layout_white, parent, false);
         DishListViewHolder dishListViewHolder = new DishListViewHolder(view);
         return dishListViewHolder;
     }
@@ -47,10 +47,15 @@ public class DishListAdapter extends RecyclerView.Adapter<DishListAdapter.DishLi
         int size = 0, height = 0, span = 0;
 
         final View itemView = holder.itemView;
-              lp.setMargins(1, 1, 1, 1);
+      //  itemView.setPadding(5,5,5,5);
+        final org.lucasr.twowayview.widget.StaggeredGridLayoutManager.LayoutParams layoutParams =
+                (org.lucasr.twowayview.widget.StaggeredGridLayoutManager.LayoutParams) itemView.getLayoutParams();
+       // layoutParams.setMargins(4,4,4,4);
+
         if (mProductDisplayType == 1) {
             size = mDeviceWidth;
             height = mDeviceHeight / 2;
+            Log.e(TAG ,"ITEM HEIGHT IS "+height);
             span = 2;
         } else if (mProductDisplayType == 2) {
             size = mDeviceWidth / 2;
@@ -64,12 +69,12 @@ public class DishListAdapter extends RecyclerView.Adapter<DishListAdapter.DishLi
             if (position % 6 == 0 || position % 6 == 1) {
                 Log.e(TAG, "from %6==0 or ==1 position is  " + position);
                 size = mDeviceWidth;
-                height = (int) mDeviceHeight / 4;
+                height =  mDeviceHeight / 4;
                 span = 2;
             } else {
                 Log.e(TAG, "from mProductDisplayType ==4 else position is  " + position);
                 size = mDeviceWidth / 2;
-                height = (int) mDeviceHeight / 4;
+                height = mDeviceHeight / 4;
                 span = 1;
             }
 
@@ -80,12 +85,30 @@ public class DishListAdapter extends RecyclerView.Adapter<DishListAdapter.DishLi
             if (position % 3 == 0) {
                 Log.e(TAG, "from %6==0 or ==1   mProductDisplayType ==5 if  position is  " + position);
                 size = mDeviceWidth / 2;
-                height = (int) mDeviceHeight / 2;
+                height =  mDeviceHeight / 2;
                 span = 1;
             } else {
                 Log.e(TAG, "from mProductDisplayType ==5 else position is  " + position);
                 size = mDeviceWidth / 2;
-                height = (int) mDeviceHeight / 4;
+                height =  mDeviceHeight / 4;
+                span = 1;
+                layoutParams.setMargins(2,2,2,2);
+            }
+
+            Log.e(TAG, "SPAN IS " + span);
+            Log.e(TAG, "widht from type  IS " + size);
+            Log.e(TAG, "height from type  IS " + height);
+        }
+        else if (mProductDisplayType == 6) {
+            if (position % 3 == 0) {
+                Log.e(TAG, "from %6==0 or ==1   mProductDisplayType ==5 if  position is  " + position);
+                size = mDeviceWidth ;
+                height =  mDeviceHeight / 2;
+                span = 2;
+            } else {
+                Log.e(TAG, "from mProductDisplayType ==5 else position is  " + position);
+                size = mDeviceWidth / 2;
+                height =  mDeviceHeight / 2;
                 span = 1;
             }
 
@@ -94,21 +117,20 @@ public class DishListAdapter extends RecyclerView.Adapter<DishListAdapter.DishLi
             Log.e(TAG, "height from type  IS " + height);
         }
 
-        final org.lucasr.twowayview.widget.StaggeredGridLayoutManager.LayoutParams lp =
-                (org.lucasr.twowayview.widget.StaggeredGridLayoutManager.LayoutParams) itemView.getLayoutParams();
-        lp.span = span;
-        lp.width = size;
-        lp.height = height;
 
-        itemView.setLayoutParams(lp);
+        layoutParams.span = span;
+        layoutParams.width = size;
+        layoutParams.height = height;
+
+        itemView.setLayoutParams(layoutParams);
         holder.dishImage.setBackgroundResource(mDishArrayList.get(position).getDishImage());
         holder.dishTitle.setText(mDishArrayList.get(position).getDishName());
         holder.dishPrice.setText(mDishArrayList.get(position).getDishPrice());
         holder.dishEstimatedTime.setText(mDishArrayList.get(position).getDishEstimatedTime());
         if (mDishArrayList.get(position).isSelected()) {
-            holder.dishFavourite.setBackgroundResource(R.drawable.cart_selected);
+            holder.dishFavourite.setBackgroundResource(R.mipmap.cart_remove);
         } else {
-            holder.dishFavourite.setBackgroundResource(R.drawable.cart_normal);
+            holder.dishFavourite.setBackgroundResource(R.mipmap.cart_add);
         }
 
     }
@@ -129,16 +151,17 @@ public class DishListAdapter extends RecyclerView.Adapter<DishListAdapter.DishLi
             dishTitle = (TextView) itemView.findViewById(R.id.menu_display_dish_title);
             dishImage = (ImageView) itemView.findViewById(R.id.menu_display_img);
             dishFavourite = (ImageView) itemView.findViewById(R.id.menu_display_favourite);
+            dishImage.setTag(R.id.menu_display_img);
             dishFavourite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mDishSelectedInterface.onDishSelected(mDishArrayList.get(getPosition()), getPosition());
                     if (mDishArrayList.get(getPosition()).isSelected()) {
                         mDishArrayList.get(getPosition()).setSelected(false);
-                        dishFavourite.setBackgroundResource(R.drawable.cart_normal);
+                        dishFavourite.setBackgroundResource(R.mipmap.cart_add);
                     } else {
                         mDishArrayList.get(getPosition()).setSelected(true);
-                        dishFavourite.setBackgroundResource(R.drawable.cart_selected);
+                        dishFavourite.setBackgroundResource(R.mipmap.cart_remove);
                     }
 
 

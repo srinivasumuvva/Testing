@@ -3,9 +3,38 @@
     <!-- "Mark Favorite", should appear as action button if possible -->
     <item
         android:id="@+id/action_cart"
-        android:title=""
         android:orderInCategory="1"
+        android:title=""
+        app:actionLayout="@layout/add_cart_counter_new"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/item_display"
+        android:icon="@drawable/pd_display_type"
+        android:orderInCategory="2"
+        android:title="Type"
+        app:showAsAction="always">
+        <!--  Item 2 submenu 3 item -->
+        <menu>
+            <item
+                android:id="@+id/type1"
+                android:title="Type 1" />
+            <item
+                android:id="@+id/type2"
+                android:title="Type 2" />
+            <item
+                android:id="@+id/type3"
+                android:title="Type 3" />
+            <item
+                android:id="@+id/type4"
+                android:title="Type 4" />
+            <item
+                android:id="@+id/type5"
+                android:title="Type 5" />
+            <item
+                android:id="@+id/type6"
+                android:title="Type 6" />
+        </menu>
+    </item>
 
 
 </menu>

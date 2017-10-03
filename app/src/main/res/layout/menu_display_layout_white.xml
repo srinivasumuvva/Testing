@@ -1,0 +1,104 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/black"
+        android:elevation="@dimen/card_elevation"
+        card_view:cardCornerRadius="@dimen/cardCornerRadius">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/menu_display_img_layout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/menu_display_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/menu_display_dish_title"
+                    android:layout_weight="1"
+                    android:background="@drawable/nv_item2"
+                    android:scaleType="fitXY" />
+
+
+                <TextView
+                    android:id="@+id/menu_display_dish_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:padding="@dimen/dish_title_padding"
+                    android:text="Dish Title"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/menu_display_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="@dimen/dish_price_margin_left"
+                    android:layout_marginRight="@dimen/dish_price_margin_left"
+                    android:layout_toStartOf="@+id/menu_display_favourite"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:padding="@dimen/dish_price_padding"
+                    android:text="Price : 5$"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/menu_display_estimatedTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/menu_display_price"
+                    android:layout_marginLeft="@dimen/dish_price_margin_left"
+                    android:layout_marginRight="@dimen/dish_price_margin_left"
+                    android:layout_toStartOf="@+id/menu_display_favourite"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:padding="@dimen/dish_estimated_time__padding"
+                    android:text="Estimated Time : 5 min"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/menu_display_favourite"
+                    android:layout_width="@dimen/dish_favourite_width"
+                    android:layout_height="@dimen/dish_favourite_height"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dish_faviroute_margin"
+                    android:background="@drawable/favourite"
+                    android:padding="@dimen/dish_favourite_padding" />
+
+
+            </RelativeLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?><!--Adding Badge (Item Count)/Notification Count to Android Button-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:layout_height="wrap_content"
+    >
+
+    <ImageView
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/shoping_cart" />
+
+
+    <TextView
+        android:id="@+id/badge_notification_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/cart_text_background"
+        android:text="60"
+        android:textColor="#FFF"
+        android:layout_marginLeft="-15dp"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/button1" />
+</RelativeLayout>

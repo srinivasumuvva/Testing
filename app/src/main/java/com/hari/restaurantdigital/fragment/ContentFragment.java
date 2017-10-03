@@ -7,10 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,9 +36,9 @@ public class ContentFragment extends Fragment implements DishSelectedInterface {
     LinearLayoutManager mLinearLayoutManager;
     DishListAdapter mDishListAdapter;
     ArrayList mDishArrayList;
-    int dishImages[] = {R.drawable.nv_item1,R.drawable.nv_item2, R.drawable.nv_item3, R.drawable.nv_item4,R.drawable.nv_item5,R.drawable.nv_item6};
+    int dishImages[] = {R.drawable.nv_item1, R.drawable.nv_item2, R.drawable.nv_item3, R.drawable.nv_item4, R.drawable.nv_item5, R.drawable.nv_item6};
     ArrayList<Dish> mSelectedList = new ArrayList<>();
-    HashSet<Integer> mSelectedListPosition=new HashSet<>();
+    HashSet<Integer> mSelectedListPosition = new HashSet<>();
     MenuItem menuItem;
 
     @Override
@@ -106,8 +103,8 @@ public class ContentFragment extends Fragment implements DishSelectedInterface {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear(); //Empty the old menu
         getActivity().getMenuInflater().inflate(R.menu.menu_main, menu);
-        menuItem = menu.findItem(R.id.action_cart);
-        menuItem.setIcon(buildCounterDrawable(mSelectedList.size(), R.drawable.cart));
+       // menuItem = menu.findItem(R.id.action_cart);
+       // menuItem.setIcon(buildCounterDrawable(mSelectedListPosition.size(), R.drawable.shoping_cart));
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -139,9 +136,12 @@ public class ContentFragment extends Fragment implements DishSelectedInterface {
     }
 
     @Override
-    public void onDishSelected(Dish pDish,int pPostion) {
-        if(mSelectedListPosition.add(pPostion)) {
+    public void onDishSelected(Dish pDish, int pPostion) {
+        if (mSelectedListPosition.add(pPostion)) {
             mSelectedList.add(pDish);
+            ActivityCompat.invalidateOptionsMenu(getActivity());
+        } else {
+            mSelectedListPosition.remove(pPostion);
             ActivityCompat.invalidateOptionsMenu(getActivity());
         }
     }

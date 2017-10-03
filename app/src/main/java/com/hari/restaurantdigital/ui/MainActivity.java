@@ -1,5 +1,7 @@
 package com.hari.restaurantdigital.ui;
 
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -7,13 +9,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,13 +34,14 @@ import static com.hari.restaurantdigital.R.string;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG =MainActivity.class.getName() ;
     //Defining Variables
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     public static int mDeviceWidth, mDeviceHeight;
-
+    public static int mProductDisplayType=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +85,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
-    private void initViews(){
+
+    private void initViews() {
 
     }
 
@@ -96,8 +101,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem menuItem = menu.findItem(id.action_cart);
-        menuItem.setIcon(buildCounterDrawable(2, R.drawable.cart));
+      //  MenuItem menuItem = menu.findItem(id.action_cart);
+      //  menuItem.setIcon(buildCounterDrawable(2, R.drawable.shoping_cart));
         return true;
     }
 
@@ -120,10 +125,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 return true;
         }*/
+
+        switch (item.getItemId()) {
+
+            case id.type1:
+                mProductDisplayType = 1;
+                loadFragment();
+                break;
+            case id.type2:
+                mProductDisplayType = 2;
+                loadFragment();
+                break;
+            case id.type3:
+                mProductDisplayType = 3;
+                loadFragment();
+                break;
+            case id.type4:
+                mProductDisplayType = 4;
+                loadFragment();
+                break;
+            case id.type5:
+                mProductDisplayType = 5;
+                loadFragment();
+                break;
+            case id.type6:
+                mProductDisplayType = 6;
+                loadFragment();
+                break;
+
+        }
+
         return super.onOptionsItemSelected(item);
 
     }
 
+    private void loadFragment(){
+        Fragment fragment = new ContentFragment();
+        if (fragment != null) {
+            Log.e(TAG,"TOOL BAR HEIGHT IS "+toolbar.getHeight());
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frame, fragment);
+            fragmentTransaction.addToBackStack(fragment.getClass().getSimpleName());
+            fragmentTransaction.commit();
+        }
+    }
     private Drawable buildCounterDrawable(int count, int backgroundImageId) {
         LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
         View view = inflater.inflate(layout.add_cart_counter, null);
@@ -190,22 +235,56 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
         }
-        if (fragment != null) {
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frame, fragment);
-            fragmentTransaction.addToBackStack(fragment.getClass().getSimpleName());
-            fragmentTransaction.commit();
-        }
+        loadFragment();
 
         return true;
     }
 
+   /* public static int dpToPx(int dp)
+    {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    }*/
+    public int dpToPx(int dp) {
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
+
+    private int dp2px(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
+    }
+
+    public int getToolBarHeight() {
+       /* int[] attrs = new int[] {R.attr.actionBarSize};
+        TypedArray ta = MainActivity.this.obtainStyledAttributes(attrs);
+        int toolBarHeight = ta.getDimensionPixelSize(0, -1);
+        ta.recycle();
+        return toolBarHeight;*/
+
+        int[] textSizeAttr = new int[] { android.R.attr.actionBarSize, R.attr.actionBarSize };
+        TypedArray a = obtainStyledAttributes(new TypedValue().data, textSizeAttr);
+        float heightHolo = a.getDimension(0, -1);
+        float heightMaterial = a.getDimension(1, -1);
+
+        Log.e("DEBUG", "Height android.R.attr.: " + heightHolo + "");
+        Log.e("DEBUG", "Height R.attr.: " + heightMaterial + "");
+        return  (int)heightMaterial;
+    }
+
+
 
     private void calculateDeviceMetrics() {
-
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        mDeviceHeight = displayMetrics.heightPixels;
+        int toolbarHeight=toolbar.getHeight();
+        Log.e(TAG,"tool bar height is "+toolbarHeight);
+        Log.e(TAG,"tool bar height is "+getToolBarHeight());
+        Log.e(TAG,"margin height is "+dpToPx(10));
+        Log.e(TAG,"margin height is "+dp2px(10));
+
+        Log.e(TAG,"action bar height is "+ getSupportActionBar().getHeight());
+        Log.e(TAG,"mDeviceHeight height is "+displayMetrics.heightPixels);
+        mDeviceHeight = (displayMetrics.heightPixels-getToolBarHeight());
+        Log.e(TAG,"mDeviceHeight height is "+mDeviceHeight);
         mDeviceWidth = displayMetrics.widthPixels;
     }
 }
