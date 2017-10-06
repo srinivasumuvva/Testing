@@ -1,6 +1,7 @@
 package com.hari.restaurantdigital.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,34 +49,41 @@ public class DishListAdapter extends RecyclerView.Adapter<DishListAdapter.DishLi
 
         final View itemView = holder.itemView;
       //  itemView.setPadding(5,5,5,5);
-        final org.lucasr.twowayview.widget.StaggeredGridLayoutManager.LayoutParams layoutParams =
-                (org.lucasr.twowayview.widget.StaggeredGridLayoutManager.LayoutParams) itemView.getLayoutParams();
+     /*   final org.lucasr.twowayview.widget.StaggeredGridLayoutManager.LayoutParams layoutParams =
+                (org.lucasr.twowayview.widget.StaggeredGridLayoutManager.LayoutParams) itemView.getLayoutParams();*/
+
+        StaggeredGridLayoutManager.LayoutParams layoutParams=(StaggeredGridLayoutManager.LayoutParams)itemView.getLayoutParams();
        // layoutParams.setMargins(4,4,4,4);
 
         if (mProductDisplayType == 1) {
             size = mDeviceWidth;
             height = mDeviceHeight / 2;
             Log.e(TAG ,"ITEM HEIGHT IS "+height);
+            layoutParams.setFullSpan(true);
             span = 2;
         } else if (mProductDisplayType == 2) {
             size = mDeviceWidth / 2;
             height = mDeviceHeight / 2;
             span = 1;
+            layoutParams.setFullSpan(false);
         } else if (mProductDisplayType == 3) {
             size = mDeviceWidth / 2;
             height = mDeviceHeight / 3;
             span = 1;
+            layoutParams.setFullSpan(false);
         } else if (mProductDisplayType == 4) {
             if (position % 6 == 0 || position % 6 == 1) {
                 Log.e(TAG, "from %6==0 or ==1 position is  " + position);
                 size = mDeviceWidth;
                 height =  mDeviceHeight / 4;
                 span = 2;
+                layoutParams.setFullSpan(true);
             } else {
                 Log.e(TAG, "from mProductDisplayType ==4 else position is  " + position);
                 size = mDeviceWidth / 2;
                 height = mDeviceHeight / 4;
                 span = 1;
+                layoutParams.setFullSpan(false);
             }
 
             Log.e(TAG, "SPAN IS " + span);
@@ -87,11 +95,13 @@ public class DishListAdapter extends RecyclerView.Adapter<DishListAdapter.DishLi
                 size = mDeviceWidth / 2;
                 height =  mDeviceHeight / 2;
                 span = 1;
+                layoutParams.setFullSpan(false);
             } else {
                 Log.e(TAG, "from mProductDisplayType ==5 else position is  " + position);
                 size = mDeviceWidth / 2;
                 height =  mDeviceHeight / 4;
                 span = 1;
+                layoutParams.setFullSpan(false);
                 layoutParams.setMargins(2,2,2,2);
             }
 
@@ -105,11 +115,13 @@ public class DishListAdapter extends RecyclerView.Adapter<DishListAdapter.DishLi
                 size = mDeviceWidth ;
                 height =  mDeviceHeight / 2;
                 span = 2;
+                layoutParams.setFullSpan(true);
             } else {
                 Log.e(TAG, "from mProductDisplayType ==5 else position is  " + position);
                 size = mDeviceWidth / 2;
                 height =  mDeviceHeight / 2;
                 span = 1;
+                layoutParams.setFullSpan(false);
             }
 
             Log.e(TAG, "SPAN IS " + span);
@@ -118,7 +130,7 @@ public class DishListAdapter extends RecyclerView.Adapter<DishListAdapter.DishLi
         }
 
 
-        layoutParams.span = span;
+      //  layoutParams.span = span;
         layoutParams.width = size;
         layoutParams.height = height;
 

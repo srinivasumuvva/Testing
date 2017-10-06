@@ -1,27 +1,29 @@
 package com.hari.restaurantdigital.fragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hari.restaurantdigital.Model.Dish;
 import com.hari.restaurantdigital.R;
 import com.hari.restaurantdigital.adapter.DishListAdapter;
+import com.hari.restaurantdigital.base.BaseFragment;
 import com.hari.restaurantdigital.interfaces.DishSelectedInterface;
-
-import org.lucasr.twowayview.widget.TwoWayView;
+import com.hari.restaurantdigital.ui.ProductDetailsActivity;
+import com.hari.restaurantdigital.ui.SelectedProductListing;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -30,9 +32,10 @@ import java.util.HashSet;
 /**
  * Created by Admin on 04-06-2015.
  */
-public class ContentFragment extends Fragment implements DishSelectedInterface {
+public class ContentFragment extends BaseFragment implements DishSelectedInterface {
 
-    TwoWayView mRecyclerView;
+   // TwoWayView mRecyclerView;
+    RecyclerView  mRecyclerView;
     LinearLayoutManager mLinearLayoutManager;
     DishListAdapter mDishListAdapter;
     ArrayList mDishArrayList;
@@ -42,19 +45,36 @@ public class ContentFragment extends Fragment implements DishSelectedInterface {
     MenuItem menuItem;
 
     @Override
+    protected int getLayoutResId() {
+        return R.layout.content_fragment;
+    }
+
+    @Override
+    protected String getTitleResId() {
+        return "";
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
 
-    @Nullable
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        prepareData();
+        initViews(view);
+    }
+
+    /*@Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.content_main, container, false);
+        View view = inflater.inflate(R.layout.content_fragment, container, false);
         prepareData();
         initViews(view);
         return view;
-    }
+    }*/
 
     private void prepareData() {
         mDishArrayList = new ArrayList();
@@ -88,8 +108,11 @@ public class ContentFragment extends Fragment implements DishSelectedInterface {
     }
 
     private void initViews(View pView) {
-        mRecyclerView = (TwoWayView) pView.findViewById(R.id.two_way_list);
-        mLinearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView = (RecyclerView) pView.findViewById(R.id.recycler_view);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager( 2,
+                StaggeredGridLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+      //  mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setHasFixedSize(true);
         mDishListAdapter = new DishListAdapter(ContentFragment.this);
         mDishListAdapter.setData(mDishArrayList);
@@ -144,5 +167,7 @@ public class ContentFragment extends Fragment implements DishSelectedInterface {
             mSelectedListPosition.remove(pPostion);
             ActivityCompat.invalidateOptionsMenu(getActivity());
         }
+        Intent nextActivityIntent=new Intent(getActivity(), ProductDetailsActivity.class);
+        startActivity(nextActivityIntent);
     }
 }
