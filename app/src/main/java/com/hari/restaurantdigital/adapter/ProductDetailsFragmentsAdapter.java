@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.hari.restaurantdigital.fragment.IngredientsFragment;
+import com.hari.restaurantdigital.fragment.ContentFragment;
 import com.hari.restaurantdigital.fragment.ProductDetailsFragment;
 
 /**
@@ -13,8 +13,7 @@ import com.hari.restaurantdigital.fragment.ProductDetailsFragment;
  */
 
 public class ProductDetailsFragmentsAdapter extends FragmentPagerAdapter {
-    Fragment mFragment;
-    public String[] mProductDetailsTitleArray = {"Details", "Ingredients", "Gallery"};
+
 
     public ProductDetailsFragmentsAdapter(FragmentManager fm) {
         super(fm);
@@ -22,20 +21,16 @@ public class ProductDetailsFragmentsAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if (position == 0)
-            return ProductDetailsFragment.getInstance(new Bundle());
-        else
-            return IngredientsFragment.getInstance(new Bundle());
+
+        return ProductDetailsFragment.getInstance(new Bundle(), position);
+
 
     }
 
     @Override
     public int getCount() {
-        return mProductDetailsTitleArray.length;
+        return ContentFragment.mDishArrayList.size();
     }
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return mProductDetailsTitleArray[position];
-    }
+
 }

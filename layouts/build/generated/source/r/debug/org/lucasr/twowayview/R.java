@@ -8,8 +8,8 @@ package org.lucasr.twowayview;
 
 public final class R {
     public static final class id {
-        public static int twowayview_item_click_support = 0x7f020000;
-        public static int twowayview_item_selection_support = 0x7f020001;
+        public static int twowayview_item_click_support = 0x7f0c0001;
+        public static int twowayview_item_selection_support = 0x7f0c0002;
     }
     public static final class styleable {
         public static int[] twowayview_TwoWayLayoutManager = { 0x010100c4 };

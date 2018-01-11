@@ -6,6 +6,53 @@ package com.hari.restaurantdigital.Model;
 
 public class Dish {
 
+
+
+    private boolean isSelected;
+    private int dishId;
+    private String dishName="";
+    private String dishPrice="";
+    private String dishEstimatedTime="";
+    private int dishImage;
+
+
+    private String dishContent;
+
+    public Dish(int dishId, int dishImage, String dishEstimatedTime, String dishPrice, String dishName,String dishContent) {
+        this.dishId = dishId;
+        this.dishImage = dishImage;
+        this.dishEstimatedTime = dishEstimatedTime;
+        this.dishPrice = dishPrice;
+        this.dishName = dishName;
+        this.dishContent=dishContent;
+    }
+
+
+
+    public String getDishContent() {
+        return dishContent;
+    }
+
+    public void setDishContent(String dishContent) {
+        this.dishContent = dishContent;
+    }
+    public int getDishImage() {
+        return dishImage;
+    }
+
+    public void setDishImage(int dishImage) {
+        this.dishImage = dishImage;
+    }
+
+
+
+    public String getDishEstimatedTime() {
+        return dishEstimatedTime;
+    }
+
+    public void setDishEstimatedTime(String dishEstimatedTime) {
+        this.dishEstimatedTime = dishEstimatedTime;
+    }
     public int getDishId() {
         return dishId;
     }
@@ -37,42 +84,6 @@ public class Dish {
     public void setSelected(boolean selected) {
         isSelected = selected;
     }
-
-    public boolean isSelected;
-
-    private int dishId;
-    private String dishName="";
-
-    public Dish(int dishId, int dishImage, String dishEstimatedTime, String dishPrice, String dishName) {
-        this.dishId = dishId;
-        this.dishImage = dishImage;
-        this.dishEstimatedTime = dishEstimatedTime;
-        this.dishPrice = dishPrice;
-        this.dishName = dishName;
-    }
-
-    private String dishPrice="";
-    private String dishEstimatedTime="";
-    private int dishImage;
-
-    public int getDishImage() {
-        return dishImage;
-    }
-
-    public void setDishImage(int dishImage) {
-        this.dishImage = dishImage;
-    }
-
-
-
-    public String getDishEstimatedTime() {
-        return dishEstimatedTime;
-    }
-
-    public void setDishEstimatedTime(String dishEstimatedTime) {
-        this.dishEstimatedTime = dishEstimatedTime;
-    }
-
 
 
 }

@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -23,7 +24,7 @@ import com.hari.restaurantdigital.adapter.DishListAdapter;
 import com.hari.restaurantdigital.base.BaseFragment;
 import com.hari.restaurantdigital.interfaces.DishSelectedInterface;
 import com.hari.restaurantdigital.ui.ProductDetailsActivity;
-import com.hari.restaurantdigital.ui.SelectedProductListing;
+import com.hari.restaurantdigital.ui.ProductDetailsRecyclerView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -38,7 +39,7 @@ public class ContentFragment extends BaseFragment implements DishSelectedInterfa
     RecyclerView  mRecyclerView;
     LinearLayoutManager mLinearLayoutManager;
     DishListAdapter mDishListAdapter;
-    ArrayList mDishArrayList;
+   public static ArrayList mDishArrayList;
     int dishImages[] = {R.drawable.nv_item1, R.drawable.nv_item2, R.drawable.nv_item3, R.drawable.nv_item4, R.drawable.nv_item5, R.drawable.nv_item6};
     ArrayList<Dish> mSelectedList = new ArrayList<>();
     HashSet<Integer> mSelectedListPosition = new HashSet<>();
@@ -78,25 +79,25 @@ public class ContentFragment extends BaseFragment implements DishSelectedInterfa
 
     private void prepareData() {
         mDishArrayList = new ArrayList();
-        Dish dish = new Dish(1, dishImages[getRandomNumberInRange(0, 5)], "Time : 5 Min", "Price : 5$", "Chicken 65");
+        Dish dish = new Dish(1, dishImages[getRandomNumberInRange(0, 5)], "Time : 5 Min", "Price : 5$", "Chicken 65","jlsjfakljsafdklj");
         mDishArrayList.add(dish);
-        dish = new Dish(1, dishImages[getRandomNumberInRange(0, 5)], "Time : 2 Min", "Price : 5$", "Guntur Chicken ");
+        dish = new Dish(1, dishImages[getRandomNumberInRange(0, 5)], "Time : 2 Min", "Price : 5$", "Guntur Chicken ","khasfkjnhakfj");
         mDishArrayList.add(dish);
-        dish = new Dish(1, dishImages[getRandomNumberInRange(0, 5)], "Time : 2 Min", "Price : 5$", "Chicken Fry");
+        dish = new Dish(1, dishImages[getRandomNumberInRange(0, 5)], "Time : 2 Min", "Price : 5$", "Chicken Fry","jaskhklahklg");
         mDishArrayList.add(dish);
-        dish = new Dish(1, dishImages[getRandomNumberInRange(0, 5)], "Time : 2 Min", "Price : 5$", "Chicken Biriyani");
+        dish = new Dish(1, dishImages[getRandomNumberInRange(0, 5)], "Time : 2 Min", "Price : 5$", "Chicken Biriyani","jagajhaasfkjlhsafk");
         mDishArrayList.add(dish);
-        dish = new Dish(1, dishImages[getRandomNumberInRange(0, 5)], "Time : 2 Min", "Price : 5$", "Mutton BIriyani");
+        dish = new Dish(1, dishImages[getRandomNumberInRange(0, 5)], "Time : 2 Min", "Price : 5$", "Mutton BIriyani","afjkljaafo");
         mDishArrayList.add(dish);
-        dish = new Dish(1, dishImages[getRandomNumberInRange(0, 5)], "Time : 2 Min", "Price : 5$", "Fish Biriyani");
+        dish = new Dish(1, dishImages[getRandomNumberInRange(0, 5)], "Time : 2 Min", "Price : 5$", "Fish Biriyani","ajklaklgjjsaf");
         mDishArrayList.add(dish);
-        dish = new Dish(1, dishImages[getRandomNumberInRange(0, 5)], "Time : 2 Min", "Price : 5$", "Fish Fry");
+        dish = new Dish(1, dishImages[getRandomNumberInRange(0, 5)], "Time : 2 Min", "Price : 5$", "Fish Fry","jafafklaf");
         mDishArrayList.add(dish);
-        dish = new Dish(1, dishImages[getRandomNumberInRange(0, 5)], "Time : 2 Min", "Price : 5$", "Chicken Tikka");
+        dish = new Dish(1, dishImages[getRandomNumberInRange(0, 5)], "Time : 2 Min", "Price : 5$", "Chicken Tikka","jafsafkl");
         mDishArrayList.add(dish);
-        dish = new Dish(1, dishImages[getRandomNumberInRange(0, 5)], "Time : 2 Min", "Price : 5$", "Chilli Chicken ");
+        dish = new Dish(1, dishImages[getRandomNumberInRange(0, 5)], "Time : 2 Min", "Price : 5$", "Chilli Chicken ","jaklafal;fsal;fkjjkl");
         mDishArrayList.add(dish);
-        dish = new Dish(1, dishImages[getRandomNumberInRange(0, 5)], "Time : 2 Min", "Price : 5$", "Mutton khimma");
+        dish = new Dish(1, dishImages[getRandomNumberInRange(0, 5)], "Time : 2 Min", "Price : 5$", "Mutton khimma","jsafklsajflsaf");
         mDishArrayList.add(dish);
     }
 
@@ -160,7 +161,16 @@ public class ContentFragment extends BaseFragment implements DishSelectedInterfa
 
     @Override
     public void onDishSelected(Dish pDish, int pPostion) {
-        if (mSelectedListPosition.add(pPostion)) {
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("images", mDishArrayList);
+        bundle.putInt("position", pPostion);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        SlideshowDialogFragment newFragment = SlideshowDialogFragment.newInstance();
+        newFragment.setArguments(bundle);
+        newFragment.show(ft, "slideshow");
+
+        /*if (mSelectedListPosition.add(pPostion)) {
             mSelectedList.add(pDish);
             ActivityCompat.invalidateOptionsMenu(getActivity());
         } else {
@@ -168,6 +178,6 @@ public class ContentFragment extends BaseFragment implements DishSelectedInterfa
             ActivityCompat.invalidateOptionsMenu(getActivity());
         }
         Intent nextActivityIntent=new Intent(getActivity(), ProductDetailsActivity.class);
-        startActivity(nextActivityIntent);
+        startActivity(nextActivityIntent);*/
     }
 }

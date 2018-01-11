@@ -1,5 +1,9 @@
 package com.hari.restaurantdigital.adapter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -8,11 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hari.restaurantdigital.Model.Dish;
 import com.hari.restaurantdigital.R;
+import com.hari.restaurantdigital.fragment.SlideshowDialogFragment;
 import com.hari.restaurantdigital.interfaces.DishSelectedInterface;
 import com.hari.restaurantdigital.ui.MainActivity;
+import com.hari.restaurantdigital.ui.ProductDetailsRecyclerView;
 
 import java.util.ArrayList;
 
@@ -23,15 +30,15 @@ import java.util.ArrayList;
 public class DishListAdapter extends RecyclerView.Adapter<DishListAdapter.DishListViewHolder> {
     private int mProductDisplayType = MainActivity.mProductDisplayType;
     private int mDeviceWidth, mDeviceHeight;
-    private static final String TAG=DishListAdapter.class.getSimpleName();
+    private static final String TAG = DishListAdapter.class.getSimpleName();
     ArrayList<Dish> mDishArrayList = new ArrayList<>();
-
+    Context mContext;
     DishSelectedInterface mDishSelectedInterface;
 
     public DishListAdapter(DishSelectedInterface pDishSelectedInterface) {
         mDishSelectedInterface = pDishSelectedInterface;
-        mDeviceHeight= MainActivity.mDeviceHeight;
-        mDeviceWidth=MainActivity.mDeviceWidth;
+        mDeviceHeight = MainActivity.mDeviceHeight;
+        mDeviceWidth = MainActivity.mDeviceWidth;
         mProductDisplayType = MainActivity.mProductDisplayType;
     }
 
@@ -39,6 +46,7 @@ public class DishListAdapter extends RecyclerView.Adapter<DishListAdapter.DishLi
     public DishListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.menu_display_layout_white, parent, false);
+        mContext = parent.getContext();
         DishListViewHolder dishListViewHolder = new DishListViewHolder(view);
         return dishListViewHolder;
     }
@@ -48,17 +56,17 @@ public class DishListAdapter extends RecyclerView.Adapter<DishListAdapter.DishLi
         int size = 0, height = 0, span = 0;
 
         final View itemView = holder.itemView;
-      //  itemView.setPadding(5,5,5,5);
+        //  itemView.setPadding(5,5,5,5);
      /*   final org.lucasr.twowayview.widget.StaggeredGridLayoutManager.LayoutParams layoutParams =
                 (org.lucasr.twowayview.widget.StaggeredGridLayoutManager.LayoutParams) itemView.getLayoutParams();*/
 
-        StaggeredGridLayoutManager.LayoutParams layoutParams=(StaggeredGridLayoutManager.LayoutParams)itemView.getLayoutParams();
-       // layoutParams.setMargins(4,4,4,4);
+        StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) itemView.getLayoutParams();
+        // layoutParams.setMargins(4,4,4,4);
 
         if (mProductDisplayType == 1) {
             size = mDeviceWidth;
             height = mDeviceHeight / 2;
-            Log.e(TAG ,"ITEM HEIGHT IS "+height);
+            Log.e(TAG, "ITEM HEIGHT IS " + height);
             layoutParams.setFullSpan(true);
             span = 2;
         } else if (mProductDisplayType == 2) {
@@ -75,7 +83,7 @@ public class DishListAdapter extends RecyclerView.Adapter<DishListAdapter.DishLi
             if (position % 6 == 0 || position % 6 == 1) {
                 Log.e(TAG, "from %6==0 or ==1 position is  " + position);
                 size = mDeviceWidth;
-                height =  mDeviceHeight / 4;
+                height = mDeviceHeight / 4;
                 span = 2;
                 layoutParams.setFullSpan(true);
             } else {
@@ -93,33 +101,32 @@ public class DishListAdapter extends RecyclerView.Adapter<DishListAdapter.DishLi
             if (position % 3 == 0) {
                 Log.e(TAG, "from %6==0 or ==1   mProductDisplayType ==5 if  position is  " + position);
                 size = mDeviceWidth / 2;
-                height =  mDeviceHeight / 2;
+                height = mDeviceHeight / 2;
                 span = 1;
                 layoutParams.setFullSpan(false);
             } else {
                 Log.e(TAG, "from mProductDisplayType ==5 else position is  " + position);
                 size = mDeviceWidth / 2;
-                height =  mDeviceHeight / 4;
+                height = mDeviceHeight / 4;
                 span = 1;
                 layoutParams.setFullSpan(false);
-                layoutParams.setMargins(2,2,2,2);
+                layoutParams.setMargins(2, 2, 2, 2);
             }
 
             Log.e(TAG, "SPAN IS " + span);
             Log.e(TAG, "widht from type  IS " + size);
             Log.e(TAG, "height from type  IS " + height);
-        }
-        else if (mProductDisplayType == 6) {
+        } else if (mProductDisplayType == 6) {
             if (position % 3 == 0) {
                 Log.e(TAG, "from %6==0 or ==1   mProductDisplayType ==5 if  position is  " + position);
-                size = mDeviceWidth ;
-                height =  mDeviceHeight / 2;
+                size = mDeviceWidth;
+                height = mDeviceHeight / 2;
                 span = 2;
                 layoutParams.setFullSpan(true);
             } else {
                 Log.e(TAG, "from mProductDisplayType ==5 else position is  " + position);
                 size = mDeviceWidth / 2;
-                height =  mDeviceHeight / 2;
+                height = mDeviceHeight / 2;
                 span = 1;
                 layoutParams.setFullSpan(false);
             }
@@ -130,7 +137,7 @@ public class DishListAdapter extends RecyclerView.Adapter<DishListAdapter.DishLi
         }
 
 
-      //  layoutParams.span = span;
+        //  layoutParams.span = span;
         layoutParams.width = size;
         layoutParams.height = height;
 
@@ -179,6 +186,14 @@ public class DishListAdapter extends RecyclerView.Adapter<DishListAdapter.DishLi
 
                 }
 
+            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDishSelectedInterface.onDishSelected(mDishArrayList.get(getPosition()), getPosition());
+                    Toast.makeText(mContext,"from selected item ",Toast.LENGTH_LONG).show();
+
+                }
             });
 
         }

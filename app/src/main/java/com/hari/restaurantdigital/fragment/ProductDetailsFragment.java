@@ -11,7 +11,9 @@ import com.hari.restaurantdigital.base.BaseFragment;
  */
 
 public class ProductDetailsFragment extends BaseFragment {
-    public static Fragment getInstance(Bundle pBundle) {
+    static  int mPosition;
+    public static Fragment getInstance(Bundle pBundle,int pPosition) {
+        mPosition=pPosition;
         ProductDetailsFragment productDetailsFragment = new ProductDetailsFragment();
         productDetailsFragment.setArguments(pBundle);
         return productDetailsFragment;
