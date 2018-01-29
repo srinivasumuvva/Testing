@@ -22,7 +22,7 @@
         <activity
             android:name=".ui.ProductDetailsRecyclerView"
             android:excludeFromRecents="true"
-            android:theme="@android:style/Theme.Dialog"></activity>
+            ></activity>
     </application>
 
 </manifest>

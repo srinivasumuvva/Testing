@@ -8,4 +8,5 @@ import com.hari.restaurantdigital.Model.Dish;
 
 public interface DishSelectedInterface {
    void onDishSelected(Dish pDish,int pPosition);
+   void onFavouirteSelected(int pPosition);
 }

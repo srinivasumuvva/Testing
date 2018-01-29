@@ -1,5 +1,6 @@
 package com.hari.restaurantdigital.ui;
 
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -10,6 +11,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +32,6 @@ import com.hari.restaurantdigital.fragment.ContentFragment;
 
 import static com.hari.restaurantdigital.R.id;
 import static com.hari.restaurantdigital.R.layout;
-import static com.hari.restaurantdigital.R.string;
 
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,13 +45,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public static int mDeviceWidth, mDeviceHeight;
     public static int mProductDisplayType = 1;
     MenuItem mNavigationMenuItem;
+    private int mSelectedItemSize=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initNavigationView();
         calculateDeviceMetrics();
-        if(savedInstanceState==null){
+        if (savedInstanceState == null) {
             loadFragment();
         }
 
@@ -111,11 +114,48 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        final MenuItem menuItem = menu.findItem(id.action_cart);
+        View actionView = MenuItemCompat.getActionView(menuItem);
+        TextView txt_bagCount = (TextView) actionView.findViewById(R.id.badge_notification_1);
+        txt_bagCount.setText(mSelectedItemSize+"");
+        actionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOptionsItemSelected(menuItem);
+            }
+        });
         return true;
+    }
+
+    private Drawable buildCounterDrawable(int count, int backgroundImageId) {
+        LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
+        View view = inflater.inflate(layout.add_cart_counter, null);
+        view.setBackgroundResource(backgroundImageId);
+
+        if (count == 0) {
+            View counterTextPanel = view.findViewById(id.counterValuePanel);
+            counterTextPanel.setVisibility(View.GONE);
+        } else {
+            TextView textView = (TextView) view.findViewById(id.count);
+            textView.setText("" + count);
+        }
+
+        view.measure(
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+
+        view.setDrawingCacheEnabled(true);
+        view.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+        view.setDrawingCacheEnabled(false);
+
+        return new BitmapDrawable(getResources(), bitmap);
     }
 
     @Override
@@ -127,13 +167,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
-
             case id.type1:
                 mProductDisplayType = 1;
                 loadFragment();
-              return true;
+                return true;
             case id.type2:
                 mProductDisplayType = 2;
                 loadFragment();
@@ -154,13 +192,22 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 mProductDisplayType = 6;
                 loadFragment();
                 return true;
+
+            case id.action_cart:
+                startActivity(new Intent(MainActivity.this, SelectedProductListing.class));
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
 
         }
 
 
+    }
 
+    public void cartSelected(int pSize){
+        mSelectedItemSize=pSize;
+        invalidateOptionsMenu();
     }
 
     private void loadFragment() {

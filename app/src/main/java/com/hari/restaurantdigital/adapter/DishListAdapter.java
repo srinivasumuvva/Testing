@@ -1,9 +1,6 @@
 package com.hari.restaurantdigital.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -16,10 +13,8 @@ import android.widget.Toast;
 
 import com.hari.restaurantdigital.Model.Dish;
 import com.hari.restaurantdigital.R;
-import com.hari.restaurantdigital.fragment.SlideshowDialogFragment;
 import com.hari.restaurantdigital.interfaces.DishSelectedInterface;
 import com.hari.restaurantdigital.ui.MainActivity;
-import com.hari.restaurantdigital.ui.ProductDetailsRecyclerView;
 
 import java.util.ArrayList;
 
@@ -190,8 +185,7 @@ public class DishListAdapter extends RecyclerView.Adapter<DishListAdapter.DishLi
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mDishSelectedInterface.onDishSelected(mDishArrayList.get(getPosition()), getPosition());
-                    Toast.makeText(mContext,"from selected item ",Toast.LENGTH_LONG).show();
+                    mDishSelectedInterface.onFavouirteSelected(getPosition());
 
                 }
             });

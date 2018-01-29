@@ -37,6 +37,7 @@ public class SelectedProductListing extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.save_order:
                 Toast.makeText(SelectedProductListing.this,"Order is submited ",Toast.LENGTH_LONG).show();
+                finish();
                 return  true;
             default:
                 return super.onOptionsItemSelected(item);

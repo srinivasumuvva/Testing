@@ -9,6 +9,7 @@
     tools:context=".ui.SelectedProductListing">
 
     <ImageView
+        android:id="@+id/dish_image"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1.5"
